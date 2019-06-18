@@ -99,9 +99,11 @@ public class ExcelWriter
 		bool exist = false;
 		for (int iSheet = 0; iSheet < m_ExcelPackage.Workbook.Worksheets.Count; iSheet++)
 		{
-			m_ExcelPackage.Workbook.Worksheets[iSheet+1].Name = sheetName;
-			exist = true;
-			break;
+			if (m_ExcelPackage.Workbook.Worksheets[iSheet+1].Name == sheetName)
+			{
+				exist = true;
+				break;
+			}
 		}
 
 		return exist;

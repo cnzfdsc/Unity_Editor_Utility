@@ -60,8 +60,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\PrefabTest.cs" />
     <Compile Include="Assets\Scripts\Utilities\ExcelWriter.cs" />
     <Compile Include="Assets\Scripts\Utilities\FileUtility.cs" />
+    <Compile Include="Assets\Scripts\Utilities\PrefabTool.cs" />
     <Compile Include="Assets\Scripts\WriteExcelTest.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>F:/TheWay/Utility/Unity_Editor_Utility/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
