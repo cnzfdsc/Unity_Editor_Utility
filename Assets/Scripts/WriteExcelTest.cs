@@ -1,10 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 public class WriteExcelTest : MonoBehaviour
 {
+	[MenuItem("MyMenu/ShowFiles")]
+	public static void ShowFiles()
+	{
+		List<string> files = FileUtility.GetAllFileNameInDirectory(Application.dataPath + "\\Prefabs");
+		foreach (string file in files)
+		{
+			string extension = FileUtility.GetFileExtension(file);
+			if (extension != "meta")
+				Debug.Log(file);
+		}
+	}
+
 	private void Start()
 	{
 		string dataPath = Application.dataPath;
