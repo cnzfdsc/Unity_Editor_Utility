@@ -60,6 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AutoCheckVFXController.cs" />
+    <Compile Include="Assets\Scripts\AutoCheckVFXControllerInstpector.cs" />
     <Compile Include="Assets\Scripts\PrefabTest.cs" />
     <Compile Include="Assets\Scripts\Utilities\ExcelWriter.cs" />
     <Compile Include="Assets\Scripts\Utilities\FileUtility.cs" />
