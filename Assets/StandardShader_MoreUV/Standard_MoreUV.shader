@@ -52,6 +52,18 @@ Shader "Standard_MoreUV"
         _BumpScale3("Scale", Float) = 1.0
         _BumpMap3("Normal Map", 2D) = "bump" {}
 
+        _OcclusionStrength0("Strength", Range(0.0, 1.0)) = 1.0
+        _OcclusionMap0("Occlusion", 2D) = "white" {}
+
+        _OcclusionStrength1("Strength", Range(0.0, 1.0)) = 1.0
+        _OcclusionMap1("Occlusion", 2D) = "white" {}
+
+        _OcclusionStrength2("Strength", Range(0.0, 1.0)) = 1.0
+        _OcclusionMap2("Occlusion", 2D) = "white" {}
+
+        _OcclusionStrength3("Strength", Range(0.0, 1.0)) = 1.0
+        _OcclusionMap3("Occlusion", 2D) = "white" {}
+
         _EmissionColor("Color", Color) = (0,0,0)
         _EmissionMap("Emission", 2D) = "white" {}
 

@@ -68,18 +68,6 @@ half        _Metallic3;
 float       _Glossiness3;
 //float       _GlossMapScale3;
 
-sampler2D   _OcclusionMap0;
-half        _OcclusionStrength0;
-
-sampler2D   _OcclusionMap1;
-half        _OcclusionStrength1;
-
-sampler2D   _OcclusionMap2;
-half        _OcclusionStrength2;
-
-sampler2D   _OcclusionMap3;
-half        _OcclusionStrength3;
-
 // Seeker. 貌似Unity内部绑定了 "_EmissionColor" 这个属性名. 不让改, 改了就报错
 half4       _EmissionColor;
 sampler2D   _EmissionMap;

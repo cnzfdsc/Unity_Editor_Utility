@@ -50,10 +50,10 @@ namespace UnityEditor
 			public static GUIContent normalMapText2 = EditorGUIUtility.TrTextContent("Normal Map 2", "Normal Map");
 			public static GUIContent normalMapText3 = EditorGUIUtility.TrTextContent("Normal Map 3", "Normal Map");
 			//public static GUIContent heightMapText = EditorGUIUtility.TrTextContent("Height Map", "Height Map (G)");
-			public static GUIContent occlusionText0 = EditorGUIUtility.TrTextContent("Occlusion0", "Occlusion (G)");
-			public static GUIContent occlusionText1 = EditorGUIUtility.TrTextContent("Occlusion1", "Occlusion (G)");
-			public static GUIContent occlusionText2 = EditorGUIUtility.TrTextContent("Occlusion2", "Occlusion (G)");
-			public static GUIContent occlusionText3 = EditorGUIUtility.TrTextContent("Occlusion3", "Occlusion (G)");
+			//public static GUIContent occlusionText0 = EditorGUIUtility.TrTextContent("Occlusion0", "Occlusion (G)");
+			//public static GUIContent occlusionText1 = EditorGUIUtility.TrTextContent("Occlusion1", "Occlusion (G)");
+			//public static GUIContent occlusionText2 = EditorGUIUtility.TrTextContent("Occlusion2", "Occlusion (G)");
+			//public static GUIContent occlusionText3 = EditorGUIUtility.TrTextContent("Occlusion3", "Occlusion (G)");
 			public static GUIContent emissionText0 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
 			public static GUIContent emissionText1 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
 			public static GUIContent emissionText2 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
@@ -113,17 +113,17 @@ namespace UnityEditor
 		MaterialProperty bumpScale3 = null;
 		MaterialProperty bumpMap3 = null;
 
-		MaterialProperty occlusionStrength0 = null;
-        MaterialProperty occlusionMap0 = null;
+		//MaterialProperty occlusionStrength0 = null;
+  //      MaterialProperty occlusionMap0 = null;
 
-		MaterialProperty occlusionStrength1 = null;
-		MaterialProperty occlusionMap1 = null;
+		//MaterialProperty occlusionStrength1 = null;
+		//MaterialProperty occlusionMap1 = null;
 
-		MaterialProperty occlusionStrength2 = null;
-		MaterialProperty occlusionMap2 = null;
+		//MaterialProperty occlusionStrength2 = null;
+		//MaterialProperty occlusionMap2 = null;
 
-		MaterialProperty occlusionStrength3 = null;
-		MaterialProperty occlusionMap3 = null;
+		//MaterialProperty occlusionStrength3 = null;
+		//MaterialProperty occlusionMap3 = null;
 
 		//MaterialProperty heigtMapScale = null;
 		//MaterialProperty heightMap = null;
@@ -206,17 +206,17 @@ namespace UnityEditor
 			//heigtMapScale = FindProperty("_Parallax", props);
 			//heightMap = FindProperty("_ParallaxMap", props);
 
-			occlusionStrength0 = FindProperty("_OcclusionStrength0", props);
-            occlusionMap0 = FindProperty("_OcclusionMap0", props);
+			//occlusionStrength0 = FindProperty("_OcclusionStrength0", props);
+   //         occlusionMap0 = FindProperty("_OcclusionMap0", props);
 
-			occlusionStrength1 = FindProperty("_OcclusionStrength1", props);
-			occlusionMap1 = FindProperty("_OcclusionMap1", props);
+			//occlusionStrength1 = FindProperty("_OcclusionStrength1", props);
+			//occlusionMap1 = FindProperty("_OcclusionMap1", props);
 
-			occlusionStrength2 = FindProperty("_OcclusionStrength2", props);
-			occlusionMap2 = FindProperty("_OcclusionMap2", props);
+			//occlusionStrength2 = FindProperty("_OcclusionStrength2", props);
+			//occlusionMap2 = FindProperty("_OcclusionMap2", props);
 
-			occlusionStrength3 = FindProperty("_OcclusionStrength3", props);
-			occlusionMap3 = FindProperty("_OcclusionMap3", props);
+			//occlusionStrength3 = FindProperty("_OcclusionStrength3", props);
+			//occlusionMap3 = FindProperty("_OcclusionMap3", props);
 
 			emissionColorForRendering0 = FindProperty("_EmissionColor", props);
             emissionMap0 = FindProperty("_EmissionMap", props);
@@ -278,7 +278,7 @@ namespace UnityEditor
 				if (EditorGUI.EndChangeCheck())
 				{
 					// UNDONE
-					emissionMap0.textureScaleAndOffset = albedoMap0.textureScaleAndOffset; // Apply the main texture scale and offset to the emission texture as well, for Enlighten's sake
+					emissionMap0.textureScaleAndOffset = albedoMap0.textureScaleAndOffset; // Apply the main texture scale and offset to the emission texture as well, for Enlighten's sake 
 				}
 
 				EditorGUILayout.Space();
@@ -287,10 +287,10 @@ namespace UnityEditor
 				DoNormalArea();
 				EditorGUILayout.Space();
 				//m_MaterialEditor.TexturePropertySingleLine(Styles.heightMapText, heightMap, heightMap.textureValue != null ? heigtMapScale : null);
-				m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText0, occlusionMap0, occlusionMap0.textureValue != null ? occlusionStrength0 : null);
-				m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText1, occlusionMap1, occlusionMap1.textureValue != null ? occlusionStrength1 : null);
-				m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText2, occlusionMap2, occlusionMap2.textureValue != null ? occlusionStrength2 : null);
-				m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText3, occlusionMap3, occlusionMap3.textureValue != null ? occlusionStrength3 : null);
+				//m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText0, occlusionMap0, occlusionMap0.textureValue != null ? occlusionStrength0 : null);
+				//m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText1, occlusionMap1, occlusionMap1.textureValue != null ? occlusionStrength1 : null);
+				//m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText2, occlusionMap2, occlusionMap2.textureValue != null ? occlusionStrength2 : null);
+				//m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText3, occlusionMap3, occlusionMap3.textureValue != null ? occlusionStrength3 : null);
 				//m_MaterialEditor.TexturePropertySingleLine(Styles.detailMaskText, detailMask);
 				DoEmissionArea(material);
 				EditorGUILayout.Space();
@@ -484,37 +484,37 @@ namespace UnityEditor
 				m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
 			}
 
-			//if (m_MaterialEditor.EmissionEnabledProperty())
-			//{
-			//	bool hadEmissionTexture = emissionMap2.textureValue != null;
+			if (m_MaterialEditor.EmissionEnabledProperty())
+			{
+				bool hadEmissionTexture = emissionMap2.textureValue != null;
 
-			//	// Texture and HDR color controls
-			//	m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText2, emissionMap2, emissionColorForRendering2, false);
+				// Texture and HDR color controls
+				m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText2, emissionMap2, emissionColorForRendering2, false);
 
-			//	// If texture was assigned and color was black set color to white
-			//	float brightness = emissionColorForRendering2.colorValue.maxColorComponent;
-			//	if (emissionMap2.textureValue != null && !hadEmissionTexture && brightness <= 0f)
-			//		emissionColorForRendering2.colorValue = Color.white;
+				// If texture was assigned and color was black set color to white
+				float brightness = emissionColorForRendering2.colorValue.maxColorComponent;
+				if (emissionMap2.textureValue != null && !hadEmissionTexture && brightness <= 0f)
+					emissionColorForRendering2.colorValue = Color.white;
 
-			//	// change the GI flag and fix it up with emissive as black if necessary
-			//	m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
-			//}
+				// change the GI flag and fix it up with emissive as black if necessary
+				m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
+			}
 
-			//if (m_MaterialEditor.EmissionEnabledProperty())
-			//{
-			//	bool hadEmissionTexture = emissionMap3.textureValue != null;
+			if (m_MaterialEditor.EmissionEnabledProperty())
+			{
+				bool hadEmissionTexture = emissionMap3.textureValue != null;
 
-			//	// Texture and HDR color controls
-			//	m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText3, emissionMap3, emissionColorForRendering3, false);
+				// Texture and HDR color controls
+				m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText3, emissionMap3, emissionColorForRendering3, false);
 
-			//	// If texture was assigned and color was black set color to white
-			//	float brightness = emissionColorForRendering3.colorValue.maxColorComponent;
-			//	if (emissionMap3.textureValue != null && !hadEmissionTexture && brightness <= 0f)
-			//		emissionColorForRendering3.colorValue = Color.white;
+				// If texture was assigned and color was black set color to white
+				float brightness = emissionColorForRendering3.colorValue.maxColorComponent;
+				if (emissionMap3.textureValue != null && !hadEmissionTexture && brightness <= 0f)
+					emissionColorForRendering3.colorValue = Color.white;
 
-			//	// change the GI flag and fix it up with emissive as black if necessary
-			//	m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
-			//}
+				// change the GI flag and fix it up with emissive as black if necessary
+				m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
+			}
 		}
 
         void DoSpecularMetallicArea()

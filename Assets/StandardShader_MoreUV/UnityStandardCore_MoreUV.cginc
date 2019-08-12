@@ -230,10 +230,18 @@ struct FragmentCommonData
 
 inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex34, float4 i_tex5)
 {
-    // half2 metallicGloss = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, _GlossMapScale0)
-	// 					+ MetallicGloss(i_tex34.xy, _SecondTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, _GlossMapScale1)
-	// 					+ MetallicGloss(i_tex34.zw, _ThirdTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, _GlossMapScale2)
-	// 					+ MetallicGloss(i_tex5.xy, _FourthTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, _GlossMapScale3);
+
+    half alpha0 = Alpha(i_tex01.xy, _MainTex);
+    half alpha1 = Alpha(i_tex34.xy, _SecondTex);
+    half alpha2 = Alpha(i_tex34.zw, _ThirdTex);
+    half alpha3 = Alpha(i_tex5.xy, _FourthTex);
+
+    half alpha = alpha0 + alpha1 + alpha2 + alpha3;
+
+    #if defined(_ALPHATEST_ON)
+        clip (alpha - _Cutoff);
+    #endif
+
 	half2 metallicGloss = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1)
 						+ MetallicGloss(i_tex34.xy, _SecondTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, 1)
 						+ MetallicGloss(i_tex34.zw, _ThirdTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1)
@@ -243,10 +251,17 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex34, float4 
 
     half oneMinusReflectivity;
     half3 specColor;
-	half3 albedoColor = Albedo(i_tex01.xy, _MainTex) * 0.1
-					  + Albedo(i_tex34.xy, _SecondTex) * 0.1
-					  + Albedo(i_tex34.zw, _ThirdTex) * 0.1
-					  + Albedo(i_tex5.xy, _FourthTex) * 0.1;
+
+    half3 albedo0 = Albedo(i_tex01.xy, _MainTex);
+    half3 albedo1 = Albedo(i_tex34.xy, _SecondTex);
+    half3 albedo2 = Albedo(i_tex34.zw, _ThirdTex);
+    half3 albedo3 = Albedo(i_tex5.xy, _FourthTex);
+
+    half3 albedoColor = lerp(float3(0, 0, 0), albedo0, alpha0);
+    albedoColor = lerp(albedoColor, albedo1, alpha1);
+    albedoColor = lerp(albedoColor, albedo2, alpha2);
+    albedoColor = lerp(albedoColor, albedo3, alpha3);
+
     half3 diffColor = DiffuseAndSpecularFromMetallic (albedoColor, metallic
 					, /*out*/ specColor, /*out*/ oneMinusReflectivity);
 
@@ -270,22 +285,24 @@ inline FragmentCommonData FragmentSetup (inout float4 i_tex01
 	// Seeker. 暂时屏蔽 ParallelMap
     //i_tex = Parallax(i_tex, i_viewDirForParallax);
 
-    half alpha = Alpha(i_tex01.xy, _MainTex)
-				+ Alpha(i_tex34.xy, _SecondTex)
-				+ Alpha(i_tex34.zw, _ThirdTex)
-				+ Alpha(i_tex5.xy, _FourthTex);
+    // Seeker. 要使用alpha通道的信息对不同层的albedo做混合, 所以把计算alpha的代码挪到MetallicSetup里了
+    // half alpha = Alpha(i_tex01.xy, _MainTex)
+	// 			+ Alpha(i_tex34.xy, _SecondTex)
+	// 			+ Alpha(i_tex34.zw, _ThirdTex)
+	// 			+ Alpha(i_tex5.xy, _FourthTex);
 
-    #if defined(_ALPHATEST_ON)
-        clip (alpha - _Cutoff);
-    #endif
+    // #if defined(_ALPHATEST_ON)
+    //     clip (alpha - _Cutoff);
+    // #endif
 
     FragmentCommonData o = MetallicSetup (i_tex01, i_tex34, i_tex5);
     o.normalWorld = PerPixelWorldNormal(i_tex01, i_tex34, i_tex5, tangentToWorld);
     o.eyeVec = NormalizePerPixelNormal(i_eyeVec);
     o.posWorld = i_posWorld;
 
+    // Seeker. 使用多UV
     // NOTE: shader relies on pre-multiply alpha-blend (_SrcBlend = One, _DstBlend = OneMinusSrcAlpha)
-    o.diffColor = PreMultiplyAlpha (o.diffColor, alpha, o.oneMinusReflectivity, /*out*/ o.alpha);
+    //o.diffColor = PreMultiplyAlpha (o.diffColor, alpha, o.oneMinusReflectivity, /*out*/ o.alpha);
     return o;
 }
 
@@ -453,19 +470,21 @@ half4 fragForwardBaseInternal_MoreUV (VertexOutputForwardBase_MoreUV i)
     UnityLight mainLight = MainLight ();
     UNITY_LIGHT_ATTENUATION(atten, i, s.posWorld);
 
-	// Seeker. AO在使用UV拼接贴图的做法中, 我认为是没法只用一张图的. 直接相加
-    half occlusion = Occlusion(i.tex01.xy, _OcclusionMap0, _OcclusionStrength0)
-					+ Occlusion(i.tex34.xy, _OcclusionMap1, _OcclusionStrength1)
-					+ Occlusion(i.tex34.zw, _OcclusionMap2, _OcclusionStrength2)
-					+ Occlusion(i.tex5.xy, _OcclusionMap3, _OcclusionStrength3);
+	// Seeker. 战舰不要AO. By 陆广平
+    // half occlusion = Occlusion(i.tex01.xy, _OcclusionMap0, _OcclusionStrength0)
+	// 				+ Occlusion(i.tex34.xy, _OcclusionMap1, _OcclusionStrength1)
+	// 				+ Occlusion(i.tex34.zw, _OcclusionMap2, _OcclusionStrength2)
+	// 				+ Occlusion(i.tex5.xy, _OcclusionMap3, _OcclusionStrength3);
+
+    half occlusion = 1;
 
     UnityGI gi = FragmentGI (s, occlusion, i.ambientOrLightmapUV, atten, mainLight);
 
     half4 c = UNITY_BRDF_PBS (s.diffColor, s.specColor, s.oneMinusReflectivity, s.smoothness, s.normalWorld, -s.eyeVec, gi.light, gi.indirect);
     c.rgb += Emission(i.tex01.xy, _EmissionMap, _EmissionColor)
-			+ Emission(i.tex34.xy, _EmissionMap1, _EmissionColor1);
-			//+ Emission(i.tex34.zw, _EmissionMap2, _EmissionColor2);
-			//+ Emission(i.tex5.xy, _EmissionMap3, _EmissionColor3);
+			+ Emission(i.tex34.xy, _EmissionMap1, _EmissionColor1)
+			+ Emission(i.tex34.zw, _EmissionMap2, _EmissionColor2)
+			+ Emission(i.tex5.xy, _EmissionMap3, _EmissionColor3);
 
     UNITY_EXTRACT_FOG_FROM_EYE_VEC(i);
     UNITY_APPLY_FOG(_unity_fogCoord, c.rgb);
