@@ -32,39 +32,50 @@ namespace UnityEditor
         {
             public static GUIContent uvSetLabel = EditorGUIUtility.TrTextContent("UV Set");
 
-            public static GUIContent albedoText0 = EditorGUIUtility.TrTextContent("Albedo 0", "Albedo (RGB) and Transparency (A)");
-			public static GUIContent albedoText1 = EditorGUIUtility.TrTextContent("Albedo 1", "Albedo (RGB) and Transparency (A)");
-			public static GUIContent albedoText2 = EditorGUIUtility.TrTextContent("Albedo 2", "Albedo (RGB) and Transparency (A)");
-			public static GUIContent albedoText3 = EditorGUIUtility.TrTextContent("Albedo 3", "Albedo (RGB) and Transparency (A)");
+            public static GUIContent albedoText0 = EditorGUIUtility.TrTextContent("Albedo 1", "Albedo (RGB) and Transparency (A)");
+			public static GUIContent albedoText1 = EditorGUIUtility.TrTextContent("Albedo 2", "Albedo (RGB) and Transparency (A)");
+			public static GUIContent albedoText2 = EditorGUIUtility.TrTextContent("Albedo 3", "Albedo (RGB) and Transparency (A)");
+			public static GUIContent albedoText3 = EditorGUIUtility.TrTextContent("Albedo 4", "Albedo (RGB) and Transparency (A)");
 
 			public static GUIContent alphaCutoffText = EditorGUIUtility.TrTextContent("Alpha Cutoff", "Threshold for alpha cutoff");
             //public static GUIContent specularMapText = EditorGUIUtility.TrTextContent("Specular", "Specular (RGB) and Smoothness (A)");
-            public static GUIContent metallicMapText = EditorGUIUtility.TrTextContent("Metallic", "Metallic (R) and Smoothness (A)");
-            public static GUIContent smoothnessText = EditorGUIUtility.TrTextContent("Smoothness", "Smoothness value");
-            public static GUIContent smoothnessScaleText = EditorGUIUtility.TrTextContent("Smoothness", "Smoothness scale factor");
+
+            public static GUIContent metallicMapText0 = EditorGUIUtility.TrTextContent("Metallic 1", "Metallic (R) and Smoothness (A)");
+			public static GUIContent metallicMapText1 = EditorGUIUtility.TrTextContent("Metallic 2", "Metallic (R) and Smoothness (A)");
+			public static GUIContent metallicMapText2 = EditorGUIUtility.TrTextContent("Metallic 3", "Metallic (R) and Smoothness (A)");
+			public static GUIContent metallicMapText3 = EditorGUIUtility.TrTextContent("Metallic 4", "Metallic (R) and Smoothness (A)");
+
+			public static GUIContent smoothnessText0 = EditorGUIUtility.TrTextContent("Smoothness 1", "Smoothness value");
+			public static GUIContent smoothnessText1 = EditorGUIUtility.TrTextContent("Smoothness 2", "Smoothness value");
+			public static GUIContent smoothnessText2 = EditorGUIUtility.TrTextContent("Smoothness 3", "Smoothness value");
+			public static GUIContent smoothnessText3 = EditorGUIUtility.TrTextContent("Smoothness 4", "Smoothness value");
+
+			public static GUIContent smoothnessScaleText = EditorGUIUtility.TrTextContent("Smoothness", "Smoothness scale factor");
             public static GUIContent smoothnessMapChannelText = EditorGUIUtility.TrTextContent("Source", "Smoothness texture and channel");
             public static GUIContent highlightsText = EditorGUIUtility.TrTextContent("Specular Highlights", "Specular Highlights");
             public static GUIContent reflectionsText = EditorGUIUtility.TrTextContent("Reflections", "Glossy Reflections");
-            public static GUIContent normalMapText0 = EditorGUIUtility.TrTextContent("Normal Map 0", "Normal Map");
-			public static GUIContent normalMapText1 = EditorGUIUtility.TrTextContent("Normal Map 1", "Normal Map");
-			public static GUIContent normalMapText2 = EditorGUIUtility.TrTextContent("Normal Map 2", "Normal Map");
-			public static GUIContent normalMapText3 = EditorGUIUtility.TrTextContent("Normal Map 3", "Normal Map");
+            public static GUIContent normalMapText0 = EditorGUIUtility.TrTextContent("Normal Map 1", "Normal Map");
+			public static GUIContent normalMapText1 = EditorGUIUtility.TrTextContent("Normal Map 2", "Normal Map");
+			public static GUIContent normalMapText2 = EditorGUIUtility.TrTextContent("Normal Map 3", "Normal Map");
+			public static GUIContent normalMapText3 = EditorGUIUtility.TrTextContent("Normal Map 4", "Normal Map");
 			//public static GUIContent heightMapText = EditorGUIUtility.TrTextContent("Height Map", "Height Map (G)");
 			//public static GUIContent occlusionText0 = EditorGUIUtility.TrTextContent("Occlusion0", "Occlusion (G)");
 			//public static GUIContent occlusionText1 = EditorGUIUtility.TrTextContent("Occlusion1", "Occlusion (G)");
 			//public static GUIContent occlusionText2 = EditorGUIUtility.TrTextContent("Occlusion2", "Occlusion (G)");
 			//public static GUIContent occlusionText3 = EditorGUIUtility.TrTextContent("Occlusion3", "Occlusion (G)");
-			public static GUIContent emissionText0 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
-			public static GUIContent emissionText1 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
-			public static GUIContent emissionText2 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
-			public static GUIContent emissionText3 = EditorGUIUtility.TrTextContent("Color", "Emission (RGB)");
+			public static GUIContent emissionText0 = EditorGUIUtility.TrTextContent("Color 1", "Emission (RGB)");
+			public static GUIContent emissionText1 = EditorGUIUtility.TrTextContent("Color 2", "Emission (RGB)");
+			public static GUIContent emissionText2 = EditorGUIUtility.TrTextContent("Color 3", "Emission (RGB)");
+			public static GUIContent emissionText3 = EditorGUIUtility.TrTextContent("Color 4", "Emission (RGB)");
 			//public static GUIContent detailMaskText = EditorGUIUtility.TrTextContent("Detail Mask", "Mask for Secondary Maps (A)");
 			//public static GUIContent detailAlbedoText = EditorGUIUtility.TrTextContent("Detail Albedo x2", "Albedo (RGB) multiplied by 2");
 			//public static GUIContent detailNormalMapText = EditorGUIUtility.TrTextContent("Normal Map", "Normal Map");
 
 			public static string primaryMapsText = "Main Maps";
             public static string secondaryMapsText = "Secondary Maps";
-            public static string forwardText = "Forward Rendering Options";
+			public static string thirdMapsText = "Third Maps";
+			public static string fourthMapsText = "Fourth Maps";
+			public static string forwardText = "Forward Rendering Options";
             public static string renderingMode = "Rendering Mode";
             public static string advancedText = "Advanced Options";
             public static readonly string[] blendNames = Enum.GetNames(typeof(BlendMode));
@@ -267,25 +278,30 @@ namespace UnityEditor
                 BlendModePopup();
 
                 // Primary properties
-                GUILayout.Label(Styles.primaryMapsText, EditorStyles.boldLabel);
-                DoAlbedoArea(material);
-
-				EditorGUI.BeginChangeCheck();
-				m_MaterialEditor.TextureScaleOffsetProperty(albedoMap0);
-				m_MaterialEditor.TextureScaleOffsetProperty(albedoMap1);
-				m_MaterialEditor.TextureScaleOffsetProperty(albedoMap2);
-				m_MaterialEditor.TextureScaleOffsetProperty(albedoMap3);
-				if (EditorGUI.EndChangeCheck())
+                //GUILayout.Label(Styles.primaryMapsText, EditorStyles.boldLabel);
+				for (int i = 0; i < 4; i++)
 				{
-					// UNDONE
-					emissionMap0.textureScaleAndOffset = albedoMap0.textureScaleAndOffset; // Apply the main texture scale and offset to the emission texture as well, for Enlighten's sake 
-				}
+					DoLabelTitle(i);
+					DoAlbedoArea(material, i);
 
-				EditorGUILayout.Space();
-				DoSpecularMetallicArea();
-				EditorGUILayout.Space();
-				DoNormalArea();
-				EditorGUILayout.Space();
+					// Seeker. 广平不要贴图的Transform
+					//EditorGUI.BeginChangeCheck();
+					//m_MaterialEditor.TextureScaleOffsetProperty(albedoMap0);
+					//m_MaterialEditor.TextureScaleOffsetProperty(albedoMap1);
+					//m_MaterialEditor.TextureScaleOffsetProperty(albedoMap2);
+					//m_MaterialEditor.TextureScaleOffsetProperty(albedoMap3);
+					//if (EditorGUI.EndChangeCheck())
+					//{
+					//	// UNDONE
+					//	emissionMap0.textureScaleAndOffset = albedoMap0.textureScaleAndOffset; // Apply the main texture scale and offset to the emission texture as well, for Enlighten's sake 
+					//}
+
+					EditorGUILayout.Space();
+					DoSpecularMetallicArea(i);
+					EditorGUILayout.Space();
+					DoNormalArea(i);
+					EditorGUILayout.Space();
+				}
 				//m_MaterialEditor.TexturePropertySingleLine(Styles.heightMapText, heightMap, heightMap.textureValue != null ? heigtMapScale : null);
 				//m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText0, occlusionMap0, occlusionMap0.textureValue != null ? occlusionStrength0 : null);
 				//m_MaterialEditor.TexturePropertySingleLine(Styles.occlusionText1, occlusionMap1, occlusionMap1.textureValue != null ? occlusionStrength1 : null);
@@ -296,7 +312,7 @@ namespace UnityEditor
 				EditorGUILayout.Space();
 
                 // Secondary properties
-                GUILayout.Label(Styles.secondaryMapsText, EditorStyles.boldLabel);
+                //GUILayout.Label(Styles.secondaryMapsText, EditorStyles.boldLabel);
                 //m_MaterialEditor.TexturePropertySingleLine(Styles.detailAlbedoText, detailAlbedoMap);
                 //m_MaterialEditor.TexturePropertySingleLine(Styles.detailNormalMapText, detailNormalMap, detailNormalMapScale);
                 //m_MaterialEditor.TextureScaleOffsetProperty(detailAlbedoMap);
@@ -383,78 +399,112 @@ namespace UnityEditor
             EditorGUI.showMixedValue = false;
         }
 
-        void DoNormalArea()
+        void DoNormalArea(int index)
         {
-            m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText0, bumpMap0, bumpMap0.textureValue != null ? bumpScale0 : null);
-            if (bumpScale0.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
-                if (m_MaterialEditor.HelpBoxWithButton(
-                        EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
-                        EditorGUIUtility.TrTextContent("Fix Now")))
-                {
-                    bumpScale0.floatValue = 1;
-                }
-
-			m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText1, bumpMap1, bumpMap1.textureValue != null ? bumpScale1 : null);
-			if (bumpScale1.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
-				if (m_MaterialEditor.HelpBoxWithButton(
-						EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
-						EditorGUIUtility.TrTextContent("Fix Now")))
-				{
-					bumpScale1.floatValue = 1;
-				}
-
-			m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText2, bumpMap2, bumpMap2.textureValue != null ? bumpScale2 : null);
-			if (bumpScale2.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
-				if (m_MaterialEditor.HelpBoxWithButton(
-						EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
-						EditorGUIUtility.TrTextContent("Fix Now")))
-				{
-					bumpScale2.floatValue = 1;
-				}
-
-			m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText3, bumpMap3, bumpMap3.textureValue != null ? bumpScale3 : null);
-			if (bumpScale3.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
-				if (m_MaterialEditor.HelpBoxWithButton(
-						EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
-						EditorGUIUtility.TrTextContent("Fix Now")))
-				{
-					bumpScale3.floatValue = 1;
-				}
+			if (index == 0)
+			{
+				m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText0, bumpMap0, bumpMap0.textureValue != null ? bumpScale0 : null);
+				if (bumpScale0.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
+					if (m_MaterialEditor.HelpBoxWithButton(
+							EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
+							EditorGUIUtility.TrTextContent("Fix Now")))
+					{
+						bumpScale0.floatValue = 1;
+					}
+			}
+			if (index == 1)
+			{
+				m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText1, bumpMap1, bumpMap1.textureValue != null ? bumpScale1 : null);
+				if (bumpScale1.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
+					if (m_MaterialEditor.HelpBoxWithButton(
+							EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
+							EditorGUIUtility.TrTextContent("Fix Now")))
+					{
+						bumpScale1.floatValue = 1;
+					}
+			}
+			if (index == 2)
+			{
+				m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText2, bumpMap2, bumpMap2.textureValue != null ? bumpScale2 : null);
+				if (bumpScale2.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
+					if (m_MaterialEditor.HelpBoxWithButton(
+							EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
+							EditorGUIUtility.TrTextContent("Fix Now")))
+					{
+						bumpScale2.floatValue = 1;
+					}
+			}
+			if (index == 3)
+			{
+				m_MaterialEditor.TexturePropertySingleLine(Styles.normalMapText3, bumpMap3, bumpMap3.textureValue != null ? bumpScale3 : null);
+				if (bumpScale3.floatValue != 1 && UnityEditorInternal.InternalEditorUtility.IsMobilePlatform(EditorUserBuildSettings.activeBuildTarget))
+					if (m_MaterialEditor.HelpBoxWithButton(
+							EditorGUIUtility.TrTextContent("Bump scale is not supported on mobile platforms"),
+							EditorGUIUtility.TrTextContent("Fix Now")))
+					{
+						bumpScale3.floatValue = 1;
+					}
+			}
 		}
 
-        void DoAlbedoArea(Material material)
+		void DoLabelTitle(int index)
+		{
+			if (index == 0)
+				GUILayout.Label(Styles.primaryMapsText, EditorStyles.boldLabel);
+			if (index == 1)
+				GUILayout.Label(Styles.secondaryMapsText, EditorStyles.boldLabel);
+			if (index == 2)
+				GUILayout.Label(Styles.thirdMapsText, EditorStyles.boldLabel);
+			if (index == 3)
+				GUILayout.Label(Styles.fourthMapsText, EditorStyles.boldLabel);
+		}
+
+        void DoAlbedoArea(Material material, int index)
         {
-            m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText0, albedoMap0, albedoColor);
-            if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
-            {
-                m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
-			}
-
-			m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText1, albedoMap1, albedoColor);
-			if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+			if (index == 0)
 			{
-				m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText0, albedoMap0, albedoColor);
+				if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+				{
+					m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				}
 			}
-
-			m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText2, albedoMap2, albedoColor);
-			if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+			if (index == 1)
 			{
-				m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText1, albedoMap1, albedoColor);
+				if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+				{
+					m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				}
 			}
-
-			m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText3, albedoMap3, albedoColor);
-			if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+			if (index == 2)
 			{
-				m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText2, albedoMap2, albedoColor);
+				if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+				{
+					m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				}
+			}
+			if (index == 3)
+			{
+				m_MaterialEditor.TexturePropertySingleLine(Styles.albedoText3, albedoMap3, albedoColor);
+				if (((BlendMode)material.GetFloat("_Mode") == BlendMode.Cutout))
+				{
+					m_MaterialEditor.ShaderProperty(alphaCutoff, Styles.alphaCutoffText.text, MaterialEditor.kMiniTextureFieldLabelIndentLevel + 1);
+				}
 			}
 		}
 
         void DoEmissionArea(Material material)
         {
+			bool emissionEnabled = false;
+
             // Emission for GI?
             if (m_MaterialEditor.EmissionEnabledProperty())
             {
-                bool hadEmissionTexture = emissionMap0.textureValue != null;
+				emissionEnabled = true;
+
+				bool hadEmissionTexture = emissionMap0.textureValue != null;
 
                 // Texture and HDR color controls
                 m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText0, emissionMap0, emissionColorForRendering0, false);
@@ -464,103 +514,90 @@ namespace UnityEditor
                 if (emissionMap0.textureValue != null && !hadEmissionTexture && brightness <= 0f)
                     emissionColorForRendering0.colorValue = Color.white;
 
-                // change the GI flag and fix it up with emissive as black if necessary
-                m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
-            }
+				emissionEnabled = true;
 
-			if (m_MaterialEditor.EmissionEnabledProperty())
-			{
-				bool hadEmissionTexture = emissionMap1.textureValue != null;
+				hadEmissionTexture = emissionMap1.textureValue != null;
 
 				// Texture and HDR color controls
 				m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText1, emissionMap1, emissionColorForRendering1, false);
 
 				// If texture was assigned and color was black set color to white
-				float brightness = emissionColorForRendering1.colorValue.maxColorComponent;
+				brightness = emissionColorForRendering1.colorValue.maxColorComponent;
 				if (emissionMap1.textureValue != null && !hadEmissionTexture && brightness <= 0f)
 					emissionColorForRendering1.colorValue = Color.white;
 
-				// change the GI flag and fix it up with emissive as black if necessary
-				m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
-			}
+				emissionEnabled = true;
 
-			if (m_MaterialEditor.EmissionEnabledProperty())
-			{
-				bool hadEmissionTexture = emissionMap2.textureValue != null;
+				hadEmissionTexture = emissionMap2.textureValue != null;
 
 				// Texture and HDR color controls
 				m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText2, emissionMap2, emissionColorForRendering2, false);
 
 				// If texture was assigned and color was black set color to white
-				float brightness = emissionColorForRendering2.colorValue.maxColorComponent;
+				brightness = emissionColorForRendering2.colorValue.maxColorComponent;
 				if (emissionMap2.textureValue != null && !hadEmissionTexture && brightness <= 0f)
 					emissionColorForRendering2.colorValue = Color.white;
 
-				// change the GI flag and fix it up with emissive as black if necessary
-				m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
-			}
+				emissionEnabled = true;
 
-			if (m_MaterialEditor.EmissionEnabledProperty())
-			{
-				bool hadEmissionTexture = emissionMap3.textureValue != null;
+				hadEmissionTexture = emissionMap3.textureValue != null;
 
 				// Texture and HDR color controls
 				m_MaterialEditor.TexturePropertyWithHDRColor(Styles.emissionText3, emissionMap3, emissionColorForRendering3, false);
 
 				// If texture was assigned and color was black set color to white
-				float brightness = emissionColorForRendering3.colorValue.maxColorComponent;
+				brightness = emissionColorForRendering3.colorValue.maxColorComponent;
 				if (emissionMap3.textureValue != null && !hadEmissionTexture && brightness <= 0f)
 					emissionColorForRendering3.colorValue = Color.white;
+			}
 
+			if (emissionEnabled)
+			{
 				// change the GI flag and fix it up with emissive as black if necessary
 				m_MaterialEditor.LightmapEmissionFlagsProperty(MaterialEditor.kMiniTextureFieldLabelIndentLevel, true);
 			}
 		}
 
-        void DoSpecularMetallicArea()
+        void DoSpecularMetallicArea(int index)
         {
             bool hasGlossMap = false;
-            //if (m_WorkflowMode == WorkflowMode.Specular)
-            //{
-            //    hasGlossMap = specularMap.textureValue != null;
-            //    m_MaterialEditor.TexturePropertySingleLine(Styles.specularMapText, specularMap, hasGlossMap ? null : specularColor);
-            //}
-            //else if (m_WorkflowMode == WorkflowMode.Metallic)
-            //{
-                hasGlossMap = metallicMap0.textureValue != null;
-                m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText, metallicMap0, hasGlossMap ? null : metallic0);
-			//}
-			
-            int indentation = 2; // align with labels of texture properties
-			m_MaterialEditor.ShaderProperty(smoothness0, Styles.smoothnessText, indentation);
+			int indentation = 2;
 
-			///////////////////////////////////////////////////////////
+			if (index == 0)
+			{
+				hasGlossMap = metallicMap0.textureValue != null;
+				m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText0, metallicMap0, hasGlossMap ? null : metallic0);
 
-			hasGlossMap = false;
-			hasGlossMap = metallicMap1.textureValue != null;
-			m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText, metallicMap1, hasGlossMap ? null : metallic1);
+				indentation = 2; // align with labels of texture properties
+				m_MaterialEditor.ShaderProperty(smoothness0, Styles.smoothnessText0, indentation);
+			}
+			else if (index == 1)
+			{
+				hasGlossMap = false;
+				hasGlossMap = metallicMap1.textureValue != null;
+				m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText1, metallicMap1, hasGlossMap ? null : metallic1);
 
-			indentation = 2; // align with labels of texture properties
-			m_MaterialEditor.ShaderProperty(smoothness1, Styles.smoothnessText, indentation);
+				indentation = 2; // align with labels of texture properties
+				m_MaterialEditor.ShaderProperty(smoothness1, Styles.smoothnessText1, indentation);
+			}
+			else if (index == 2)
+			{
+				hasGlossMap = false;
+				hasGlossMap = metallicMap2.textureValue != null;
+				m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText2, metallicMap2, hasGlossMap ? null : metallic2);
 
-			////////////////////////////////////////////////////////////////
+				indentation = 2; // align with labels of texture properties
+				m_MaterialEditor.ShaderProperty(smoothness2, Styles.smoothnessText2, indentation);
+			}
+			else if (index == 3)
+			{
+				hasGlossMap = false;
+				hasGlossMap = metallicMap3.textureValue != null;
+				m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText3, metallicMap3, hasGlossMap ? null : metallic3);
 
-			hasGlossMap = false;
-			hasGlossMap = metallicMap2.textureValue != null;
-			m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText, metallicMap2, hasGlossMap ? null : metallic2);
-
-			indentation = 2; // align with labels of texture properties
-			m_MaterialEditor.ShaderProperty(smoothness2, Styles.smoothnessText, indentation);
-
-			////////////////////////////////////////////////////////////////
-
-			hasGlossMap = false;
-			hasGlossMap = metallicMap3.textureValue != null;
-			m_MaterialEditor.TexturePropertySingleLine(Styles.metallicMapText, metallicMap3, hasGlossMap ? null : metallic3);
-
-			indentation = 2; // align with labels of texture properties
-			m_MaterialEditor.ShaderProperty(smoothness3, Styles.smoothnessText, indentation);
-
+				indentation = 2; // align with labels of texture properties
+				m_MaterialEditor.ShaderProperty(smoothness3, Styles.smoothnessText3, indentation);
+			}
 			////////////////////////////////////////////////////////////////
 
 			++indentation;

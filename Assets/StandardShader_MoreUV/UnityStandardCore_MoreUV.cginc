@@ -19,8 +19,7 @@ struct VertexOutputForwardBase_MoreUV
 {
     UNITY_POSITION(pos);
     float4 tex01                          : TEXCOORD0;
-	float4 tex34                          : Normal;
-	float4 tex5                           : Tangent;
+	float4 tex23                          : Normal;
     float4 eyeVec                         : TEXCOORD1;    // eyeVec.xyz | fogCoord
     float4 tangentToWorldAndPackedData[3] : TEXCOORD2;    // [3x3:tangentToWorld | 1x3:viewDirForParallax or worldPos]
     half4 ambientOrLightmapUV             : TEXCOORD5;    // SH or Lightmap UV
@@ -39,8 +38,7 @@ struct VertexOutputForwardAdd_MoreUV
 {
     UNITY_POSITION(pos);
     float4 tex01                          : TEXCOORD0;
-	float4 tex34                          : Normal;
-	float4 tex5                           : Tangent;
+	float4 tex23                          : Normal;
     float4 eyeVec                       : TEXCOORD1;    // eyeVec.xyz | fogCoord
     float4 tangentToWorldAndLightDir[3] : TEXCOORD2;    // [3x3:tangentToWorld | 1x3:lightDir]
     float3 posWorld                     : TEXCOORD5;
@@ -153,7 +151,7 @@ half3 WorldNormal(half4 tan2world[3])
     }
 #endif
 
-float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex34, float4 i_tex5, float4 tangentToWorld[3])
+float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex23, float4 tangentToWorld[3])
 {
 #ifdef _NORMALMAP
     half3 tangent = tangentToWorld[0].xyz;
@@ -171,10 +169,10 @@ float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex34, float4 i_tex5, float4
         binormal = newB * sign (dot (newB, binormal));
     #endif
 
-    half3 normalTangent = NormalInTangentSpace(i_tex01.xy, _BumpMap0, _BumpScale0) * 0.1
-						+ NormalInTangentSpace(i_tex34.xy, _BumpMap1, _BumpScale1) * 0.1
-						+ NormalInTangentSpace(i_tex34.zw, _BumpMap2, _BumpScale2) * 0.1
-						+ NormalInTangentSpace(i_tex5.xy, _BumpMap3, _BumpScale3) * 0.1;
+    half3 normalTangent = NormalInTangentSpace(i_tex01.xy, _BumpMap0, _BumpScale0)
+						+ NormalInTangentSpace(i_tex01.zw, _BumpMap1, _BumpScale1)
+						+ NormalInTangentSpace(i_tex23.xy, _BumpMap2, _BumpScale2)
+						+ NormalInTangentSpace(i_tex23.zw, _BumpMap3, _BumpScale3);
     float3 normalWorld = NormalizePerPixelNormal(tangent * normalTangent.x + binormal * normalTangent.y + normal * normalTangent.z); // @TODO: see if we can squeeze this normalize on SM2.0 as well
 #else
     float3 normalWorld = normalize(tangentToWorld[2].xyz);
@@ -228,13 +226,13 @@ struct FragmentCommonData
 };
 
 
-inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex34, float4 i_tex5)
+inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
 {
 
     half alpha0 = Alpha(i_tex01.xy, _MainTex);
-    half alpha1 = Alpha(i_tex34.xy, _SecondTex);
-    half alpha2 = Alpha(i_tex34.zw, _ThirdTex);
-    half alpha3 = Alpha(i_tex5.xy, _FourthTex);
+    half alpha1 = Alpha(i_tex01.zw, _SecondTex);
+    half alpha2 = Alpha(i_tex23.xy, _ThirdTex);
+    half alpha3 = Alpha(i_tex23.zw, _FourthTex);
 
     half alpha = alpha0 + alpha1 + alpha2 + alpha3;
 
@@ -243,9 +241,9 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex34, float4 
     #endif
 
 	half2 metallicGloss = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1)
-						+ MetallicGloss(i_tex34.xy, _SecondTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, 1)
-						+ MetallicGloss(i_tex34.zw, _ThirdTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1)
-						+ MetallicGloss(i_tex5.xy, _FourthTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
+						+ MetallicGloss(i_tex01.zw, _SecondTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, 1)
+						+ MetallicGloss(i_tex23.xy, _ThirdTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1)
+						+ MetallicGloss(i_tex23.zw, _FourthTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
     half metallic = metallicGloss.x;
     half smoothness = metallicGloss.y; // this is 1 minus the square root of real roughness m.
 
@@ -253,9 +251,9 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex34, float4 
     half3 specColor;
 
     half3 albedo0 = Albedo(i_tex01.xy, _MainTex);
-    half3 albedo1 = Albedo(i_tex34.xy, _SecondTex);
-    half3 albedo2 = Albedo(i_tex34.zw, _ThirdTex);
-    half3 albedo3 = Albedo(i_tex5.xy, _FourthTex);
+    half3 albedo1 = Albedo(i_tex01.zw, _SecondTex);
+    half3 albedo2 = Albedo(i_tex23.xy, _ThirdTex);
+    half3 albedo3 = Albedo(i_tex23.zw, _FourthTex);
 
     half3 albedoColor = lerp(float3(0, 0, 0), albedo0, alpha0);
     albedoColor = lerp(albedoColor, albedo1, alpha1);
@@ -275,8 +273,7 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex34, float4 
 
 // parallax transformed texcoord is used to sample occlusion
 inline FragmentCommonData FragmentSetup (inout float4 i_tex01
-									, inout float4 i_tex34
-									, inout float4 i_tex5
+									, inout float4 i_tex23
 									, float3 i_eyeVec
 									, half3 i_viewDirForParallax
 									, float4 tangentToWorld[3]
@@ -295,8 +292,8 @@ inline FragmentCommonData FragmentSetup (inout float4 i_tex01
     //     clip (alpha - _Cutoff);
     // #endif
 
-    FragmentCommonData o = MetallicSetup (i_tex01, i_tex34, i_tex5);
-    o.normalWorld = PerPixelWorldNormal(i_tex01, i_tex34, i_tex5, tangentToWorld);
+    FragmentCommonData o = MetallicSetup (i_tex01, i_tex23);
+    o.normalWorld = PerPixelWorldNormal(i_tex01, i_tex23, tangentToWorld);
     o.eyeVec = NormalizePerPixelNormal(i_eyeVec);
     o.posWorld = i_posWorld;
 
@@ -416,8 +413,7 @@ VertexOutputForwardBase_MoreUV vertForwardBase_MoreUV (VertexInput_MoreUV v)
     o.pos = UnityObjectToClipPos(v.vertex);
 
     o.tex01 = TexCoords_01(v);
-	o.tex34 = TexCoords_34(v);
-	o.tex5 = TexCoords_5(v);
+	o.tex23 = TexCoords_23(v);
 	
     o.eyeVec.xyz = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
     float3 normalWorld = UnityObjectToWorldNormal(v.normal);
@@ -457,8 +453,7 @@ half4 fragForwardBaseInternal_MoreUV (VertexOutputForwardBase_MoreUV i)
 
     //FRAGMENT_SETUP(s)
 	FragmentCommonData s = FragmentSetup(i.tex01
-	, i.tex34
-	, i.tex5
+	, i.tex23
 	, i.eyeVec.xyz
 	, IN_VIEWDIR4PARALLAX(i)
 	, i.tangentToWorldAndPackedData
@@ -482,9 +477,9 @@ half4 fragForwardBaseInternal_MoreUV (VertexOutputForwardBase_MoreUV i)
 
     half4 c = UNITY_BRDF_PBS (s.diffColor, s.specColor, s.oneMinusReflectivity, s.smoothness, s.normalWorld, -s.eyeVec, gi.light, gi.indirect);
     c.rgb += Emission(i.tex01.xy, _EmissionMap, _EmissionColor)
-			+ Emission(i.tex34.xy, _EmissionMap1, _EmissionColor1)
-			+ Emission(i.tex34.zw, _EmissionMap2, _EmissionColor2)
-			+ Emission(i.tex5.xy, _EmissionMap3, _EmissionColor3);
+			+ Emission(i.tex01.zw, _EmissionMap1, _EmissionColor1)
+			+ Emission(i.tex23.xy, _EmissionMap2, _EmissionColor2)
+			+ Emission(i.tex23.zw, _EmissionMap3, _EmissionColor3);
 
     UNITY_EXTRACT_FOG_FROM_EYE_VEC(i);
     UNITY_APPLY_FOG(_unity_fogCoord, c.rgb);
@@ -511,8 +506,7 @@ VertexOutputForwardAdd_MoreUV vertForwardAdd_MoreUV (VertexInput_MoreUV v)
     o.pos = UnityObjectToClipPos(v.vertex);
 
     o.tex01 = TexCoords_01(v);
-	o.tex34 = TexCoords_34(v);
-	o.tex5 = TexCoords_5(v);
+	o.tex23 = TexCoords_23(v);
 	
     o.eyeVec.xyz = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
     o.posWorld = posWorld.xyz;
@@ -558,8 +552,7 @@ half4 fragForwardAddInternal_MoreUV (VertexOutputForwardAdd_MoreUV i)
     //FRAGMENT_SETUP_FWDADD(s)
 	FragmentCommonData s = 
     FragmentSetup(i.tex01
-	, i.tex34
-	, i.tex5
+	, i.tex23
 	, i.eyeVec.xyz
 	, IN_VIEWDIR4PARALLAX_FWDADD(i)
 	, i.tangentToWorldAndLightDir

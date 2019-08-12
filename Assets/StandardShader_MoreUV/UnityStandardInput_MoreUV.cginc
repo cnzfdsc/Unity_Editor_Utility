@@ -89,8 +89,6 @@ struct VertexInput_MoreUV
     float2 uv1      : TEXCOORD1;
     float2 uv2      : TEXCOORD2;
 	float2 uv3      : TEXCOORD3;
-	float2 uv4      : TEXCOORD4;
-	float2 uv5      : TEXCOORD5;
     half4 tangent   : TANGENT;
 
     UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -102,24 +100,16 @@ struct VertexInput_MoreUV
 float4 TexCoords_01(VertexInput_MoreUV v)
 {
     float4 texcoord;
-    texcoord.xy = TRANSFORM_TEX(v.uv0, _MainTex);
+    texcoord.xy = v.uv0;
     texcoord.zw = v.uv1;
     return texcoord;
 }
 
-float4 TexCoords_34(VertexInput_MoreUV v)
+float4 TexCoords_23(VertexInput_MoreUV v)
 {
     float4 texcoord;
-    texcoord.xy = TRANSFORM_TEX(v.uv3, _SecondTex);
-    texcoord.zw = TRANSFORM_TEX(v.uv4, _ThirdTex);
-    return texcoord;
-}
-
-float4 TexCoords_5(VertexInput_MoreUV v)
-{
-    float4 texcoord;
-    texcoord.xy = TRANSFORM_TEX(v.uv5, _FourthTex);
-	texcoord.zw = float2(0, 0);
+    texcoord.xy = v.uv2;
+    texcoord.zw = v.uv3;
     return texcoord;
 }
 
