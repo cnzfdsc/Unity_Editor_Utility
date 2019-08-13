@@ -675,7 +675,10 @@ namespace UnityEditor
 			//if (workflowMode == WorkflowMode.Specular)
    //             SetKeyword(material, "_SPECGLOSSMAP", material.GetTexture("_SpecGlossMap"));
    //         else if (workflowMode == WorkflowMode.Metallic)
-                SetKeyword(material, "_METALLICGLOSSMAP", material.GetTexture("_MetallicGlossMap"));
+                SetKeyword(material, "_METALLICGLOSSMAP", material.GetTexture("_MetallicGlossMap0")
+														|| material.GetTexture("_MetallicGlossMap1")
+														|| material.GetTexture("_MetallicGlossMap2")
+														|| material.GetTexture("_MetallicGlossMap3"));
 
 			//SetKeyword(material, "_PARALLAXMAP", material.GetTexture("_ParallaxMap"));
 			SetKeyword(material, "_PARALLAXMAP", false);

@@ -151,9 +151,10 @@ half3 WorldNormal(half4 tan2world[3])
     }
 #endif
 
-float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex23, float4 tangentToWorld[3])
+float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex23, float4 tangentToWorld[3], half4 alphaForIntensity)
 {
 #ifdef _NORMALMAP
+
     half3 tangent = tangentToWorld[0].xyz;
     half3 binormal = tangentToWorld[1].xyz;
     half3 normal = tangentToWorld[2].xyz;
@@ -169,13 +170,24 @@ float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex23, float4 tangentToWorld
         binormal = newB * sign (dot (newB, binormal));
     #endif
 
-    half3 normalTangent = NormalInTangentSpace(i_tex01.xy, _BumpMap0, _BumpScale0)
-						+ NormalInTangentSpace(i_tex01.zw, _BumpMap1, _BumpScale1)
-						+ NormalInTangentSpace(i_tex23.xy, _BumpMap2, _BumpScale2)
-						+ NormalInTangentSpace(i_tex23.zw, _BumpMap3, _BumpScale3);
-    float3 normalWorld = NormalizePerPixelNormal(tangent * normalTangent.x + binormal * normalTangent.y + normal * normalTangent.z); // @TODO: see if we can squeeze this normalize on SM2.0 as well
+    half3 normalTangent0 = NormalInTangentSpace(i_tex01.xy, _BumpMap0);
+    float3 normalWorld0 = NormalizePerPixelNormal(tangent * normalTangent0.x + binormal * normalTangent0.y + normal * normalTangent0.z);
+    half3 normalTangent1 = NormalInTangentSpace(i_tex01.zw, _BumpMap1);
+    float3 normalWorld1 = NormalizePerPixelNormal(tangent * normalTangent1.x + binormal * normalTangent1.y + normal * normalTangent1.z);
+    half3 normalTangent2 = NormalInTangentSpace(i_tex23.xy, _BumpMap2);
+    float3 normalWorld2 = NormalizePerPixelNormal(tangent * normalTangent2.x + binormal * normalTangent2.y + normal * normalTangent2.z);
+    half3 normalTangent3 = NormalInTangentSpace(i_tex23.zw, _BumpMap3);
+    float3 normalWorld3 = NormalizePerPixelNormal(tangent * normalTangent3.x + binormal * normalTangent3.y + normal * normalTangent3.z);
+
+alphaForIntensity = float4(1,1,1,1);
+    float3 normalWorld = normalize(lerp(normalWorld0, normalWorld1, alphaForIntensity.y));
+    normalWorld = normalize(lerp(normalWorld, normalWorld2, alphaForIntensity.z));
+    normalWorld = normalize(lerp(normalWorld, normalWorld3, alphaForIntensity.w));
+
 #else
+
     float3 normalWorld = normalize(tangentToWorld[2].xyz);
+
 #endif
     return normalWorld;
 }
@@ -223,12 +235,21 @@ struct FragmentCommonData
 #if UNITY_STANDARD_SIMPLE
     half3 tangentSpaceNormal;
 #endif
+
+    // albedo贴图的alpha通道用于标记各UV通道上的贴图的强度
+    half4 alphaForIntensity;
 };
 
 
+inline half3 DiffuseAndSpecularFromMetallic_MoreUV (half3 albedo, half metallic, out half3 specColor, out half oneMinusReflectivity)
+{
+    specColor = lerp (unity_ColorSpaceDielectricSpec.rgb, albedo, metallic);
+    oneMinusReflectivity = OneMinusReflectivityFromMetallic(metallic);
+    return albedo * oneMinusReflectivity;
+}
+
 inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
 {
-
     half alpha0 = Alpha(i_tex01.xy, _MainTex);
     half alpha1 = Alpha(i_tex01.zw, _SecondTex);
     half alpha2 = Alpha(i_tex23.xy, _ThirdTex);
@@ -240,16 +261,7 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
         clip (alpha - _Cutoff);
     #endif
 
-	half2 metallicGloss = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1)
-						+ MetallicGloss(i_tex01.zw, _SecondTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, 1)
-						+ MetallicGloss(i_tex23.xy, _ThirdTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1)
-						+ MetallicGloss(i_tex23.zw, _FourthTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
-    half metallic = metallicGloss.x;
-    half smoothness = metallicGloss.y; // this is 1 minus the square root of real roughness m.
-
-    half oneMinusReflectivity;
-    half3 specColor;
-
+    // albedo 的混合
     half3 albedo0 = Albedo(i_tex01.xy, _MainTex);
     half3 albedo1 = Albedo(i_tex01.zw, _SecondTex);
     half3 albedo2 = Albedo(i_tex23.xy, _ThirdTex);
@@ -260,7 +272,24 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
     albedoColor = lerp(albedoColor, albedo2, alpha2);
     albedoColor = lerp(albedoColor, albedo3, alpha3);
 
-    half3 diffColor = DiffuseAndSpecularFromMetallic (albedoColor, metallic
+    // metallic 和 smoothness 的混合
+    half2 metallicGloss0 = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1);
+    half2 metallicGloss1 = MetallicGloss(i_tex01.zw, _MainTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, 1);
+    half2 metallicGloss2 = MetallicGloss(i_tex23.xy, _MainTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1);
+    half2 metallicGloss3 = MetallicGloss(i_tex23.zw, _MainTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
+
+	half2 metallicGloss = lerp(float2(0, 0), metallicGloss0, alpha0);
+    metallicGloss = lerp(metallicGloss, metallicGloss1, alpha1);
+    metallicGloss = lerp(metallicGloss, metallicGloss2, alpha2);
+    metallicGloss = lerp(metallicGloss, metallicGloss3, alpha3);
+
+    half metallic = metallicGloss.x;
+    half smoothness = metallicGloss.y; // this is 1 minus the square root of real roughness m.
+
+    half oneMinusReflectivity;
+    half3 specColor;
+
+    half3 diffColor = DiffuseAndSpecularFromMetallic_MoreUV (albedoColor, metallic
 					, /*out*/ specColor, /*out*/ oneMinusReflectivity);
 
     FragmentCommonData o = (FragmentCommonData)0;
@@ -268,6 +297,7 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
     o.specColor = specColor;
     o.oneMinusReflectivity = oneMinusReflectivity;
     o.smoothness = smoothness;
+    o.alphaForIntensity = half4(alpha0, alpha1, alpha2, alpha3);
     return o;
 }
 
@@ -293,7 +323,7 @@ inline FragmentCommonData FragmentSetup (inout float4 i_tex01
     // #endif
 
     FragmentCommonData o = MetallicSetup (i_tex01, i_tex23);
-    o.normalWorld = PerPixelWorldNormal(i_tex01, i_tex23, tangentToWorld);
+    o.normalWorld = PerPixelWorldNormal(i_tex01, i_tex23, tangentToWorld, o.alphaForIntensity);
     o.eyeVec = NormalizePerPixelNormal(i_eyeVec);
     o.posWorld = i_posWorld;
 
@@ -477,9 +507,9 @@ half4 fragForwardBaseInternal_MoreUV (VertexOutputForwardBase_MoreUV i)
 
     half4 c = UNITY_BRDF_PBS (s.diffColor, s.specColor, s.oneMinusReflectivity, s.smoothness, s.normalWorld, -s.eyeVec, gi.light, gi.indirect);
     c.rgb += Emission(i.tex01.xy, _EmissionMap, _EmissionColor)
-			+ Emission(i.tex01.zw, _EmissionMap1, _EmissionColor1)
-			+ Emission(i.tex23.xy, _EmissionMap2, _EmissionColor2)
-			+ Emission(i.tex23.zw, _EmissionMap3, _EmissionColor3);
+			+ Emission(i.tex01.zw, _EmissionMap1, _EmissionColor1);
+			// + Emission(i.tex23.xy, _EmissionMap2, _EmissionColor2)
+			// + Emission(i.tex23.zw, _EmissionMap3, _EmissionColor3);
 
     UNITY_EXTRACT_FOG_FROM_EYE_VEC(i);
     UNITY_APPLY_FOG(_unity_fogCoord, c.rgb);

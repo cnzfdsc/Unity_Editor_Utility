@@ -23,28 +23,20 @@ half4       _Color;
 half        _Cutoff;
 
 sampler2D   _MainTex;
-float4      _MainTex_ST;
 
 sampler2D   _SecondTex;
-float4      _SecondTex_ST;
 
 sampler2D   _ThirdTex;
-float4      _ThirdTex_ST;
 
 sampler2D   _FourthTex;
-float4      _FourthTex_ST;
 
 sampler2D   _BumpMap0;
-half        _BumpScale0;
 
 sampler2D   _BumpMap1;
-half        _BumpScale1;
 
 sampler2D   _BumpMap2;
-half        _BumpScale2;
 
 sampler2D   _BumpMap3;
-half        _BumpScale3;
 
 sampler2D   _DetailMask;
 
@@ -145,6 +137,19 @@ half Occlusion(float2 uv, sampler2D occlusionMap, float occlusionStrength)
 #endif
 }
 
+half2 MetallicGloss(float2 uv, sampler2D albedoTex, sampler2D metallicGlossMap)
+{
+    half2 mg;
+
+    #ifdef _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+        mg.r = tex2D(metallicGlossMap, uv).r;
+        mg.g = tex2D(albedoTex, uv).a;
+    #else
+        mg = tex2D(metallicGlossMap, uv).ra;
+    #endif
+    return mg;
+}
+
 half2 MetallicGloss(float2 uv, sampler2D albedoTex, sampler2D metallicGlossMap, 
 					float metallic, float glossiness, float glossMapScale)
 {
@@ -182,6 +187,12 @@ half3 Emission(float2 uv, sampler2D emissonMap, half4 emissionColor)
 half3 NormalInTangentSpace(float2 uv, sampler2D bumpMap, float bumpScale)
 {
     half3 normalTangent = UnpackScaleNormal(tex2D (bumpMap, uv), bumpScale);
+
+    return normalTangent;
+}
+half3 NormalInTangentSpace(float2 uv, sampler2D bumpMap)
+{
+    half3 normalTangent = UnpackScaleNormal(tex2D (bumpMap, uv), 1);
 
     return normalTangent;
 }

@@ -70,7 +70,6 @@
     <Compile Include="Assets\StandardShader_MoreUV\StandardShaderGUI_MoreUV.cs" />
     <None Include="Assets\StandardShader_MoreUV\UnityStandardInput_MoreUV.cginc" />
     <None Include="Assets\StandardShader_MoreUV\UnityStandardCore_MoreUV.cginc" />
-    <None Include="Assets\UV4Test\Standard_MoreUV.shader" />
     <None Include="Assets\StandardShader_MoreUV\Standard_MoreUV.shader" />
     <None Include="Assets\UV4Test\UV7Test.shader" />
     <None Include="Assets\StandardShader_MoreUV\UnityStandardCoreForward_MoreUV.cginc" />

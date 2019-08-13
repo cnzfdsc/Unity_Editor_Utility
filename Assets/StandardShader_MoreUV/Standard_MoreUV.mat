@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Standard_MoreUV
   m_Shader: {fileID: 4800000, guid: 8f3c505c2a9047346b9fe53924111819, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -24,19 +24,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap0:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 69a71d531e9e00a479b13adda89707ff, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap1:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 69a71d531e9e00a479b13adda89707ff, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap2:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9c43504b5b215174e945baaa477d9a9f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap3:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9c43504b5b215174e945baaa477d9a9f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FourthTex:
-        m_Texture: {fileID: 2800000, guid: 4bc233574b9abbb48bfef88f7fab6731, type: 3}
+        m_Texture: {fileID: 2800000, guid: 62b6ae2b051338643b118eaa7c9201fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -80,19 +80,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap0:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d75506082ebf80a4c8d3f66aad889e78, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap1:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 69a71d531e9e00a479b13adda89707ff, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap2:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9c43504b5b215174e945baaa477d9a9f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap3:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 62b6ae2b051338643b118eaa7c9201fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -124,7 +124,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ThirdTex:
-        m_Texture: {fileID: 2800000, guid: 62b6ae2b051338643b118eaa7c9201fb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9c43504b5b215174e945baaa477d9a9f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -140,8 +140,8 @@ Material:
     - _Glossiness: 0.5
     - _Glossiness0: 0.5
     - _Glossiness1: 0.5
-    - _Glossiness2: 0.5
-    - _Glossiness3: 0.5
+    - _Glossiness2: 0.515
+    - _Glossiness3: 0.534
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Metallic0: 0
@@ -161,7 +161,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.047058824}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor1: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor2: {r: 0, g: 0, b: 0, a: 1}
