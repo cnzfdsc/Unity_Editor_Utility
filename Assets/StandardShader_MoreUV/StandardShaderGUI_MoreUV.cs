@@ -666,6 +666,11 @@ namespace UnityEditor
 			// Note: keywords must be based on Material value not on MaterialProperty due to multi-edit & material animation
 			// (MaterialProperty value might come from renderer material property block)
 
+			SetKeyword(material, "_ALBEDO_0", material.GetTexture("_MainTex"));
+			SetKeyword(material, "_ALBEDO_1", material.GetTexture("_SecondTex"));
+			SetKeyword(material, "_ALBEDO_2", material.GetTexture("_ThirdTex"));
+			SetKeyword(material, "_ALBEDO_3", material.GetTexture("_FourthTex"));
+
 			//SetKeyword(material, "_NORMALMAP", material.GetTexture("_BumpMap") || material.GetTexture("_DetailNormalMap"));
 			SetKeyword(material, "_NORMALMAP"
 				, material.GetTexture("_BumpMap0") 
@@ -690,8 +695,12 @@ namespace UnityEditor
 			MaterialEditor.FixupEmissiveFlag(material);
             bool shouldEmissionBeEnabled = (material.globalIlluminationFlags & MaterialGlobalIlluminationFlags.EmissiveIsBlack) == 0;
             SetKeyword(material, "_EMISSION", shouldEmissionBeEnabled);
+			SetKeyword(material, "_EMISSION_0", material.GetTexture("_EmissionMap"));
+			SetKeyword(material, "_EMISSION_1", material.GetTexture("_EmissionMap1"));
+			SetKeyword(material, "_EMISSION_2", material.GetTexture("_EmissionMap2"));
+			SetKeyword(material, "_EMISSION_3", material.GetTexture("_EmissionMap3"));
 
-            if (material.HasProperty("_SmoothnessTextureChannel"))
+			if (material.HasProperty("_SmoothnessTextureChannel"))
             {
                 SetKeyword(material, "_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A", GetSmoothnessMapChannel(material) == SmoothnessMapChannel.AlbedoAlpha);
             }

@@ -262,15 +262,20 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
     #endif
 
     // albedo 的混合
-    half3 albedo0 = Albedo(i_tex01.xy, _MainTex);
-    half3 albedo1 = Albedo(i_tex01.zw, _SecondTex);
-    half3 albedo2 = Albedo(i_tex23.xy, _ThirdTex);
-    half3 albedo3 = Albedo(i_tex23.zw, _FourthTex);
+    half3 albedoColor = half3(0, 0, 0);
 
-    half3 albedoColor = lerp(float3(0, 0, 0), albedo0, alpha0);
-    albedoColor = lerp(albedoColor, albedo1, alpha1);
-    albedoColor = lerp(albedoColor, albedo2, alpha2);
-    albedoColor = lerp(albedoColor, albedo3, alpha3);
+    #ifdef _ALBEDO_0
+    albedoColor = lerp(float3(0, 0, 0), Albedo(i_tex01.xy, _MainTex), alpha0);
+    #endif
+    #ifdef _ALBEDO_1
+    albedoColor = lerp(albedoColor, Albedo(i_tex01.zw, _SecondTex), alpha1);
+    #endif
+    #ifdef _ALBEDO_2
+    albedoColor = lerp(albedoColor, Albedo(i_tex23.xy, _ThirdTex), alpha2);
+    #endif
+    #ifdef _ALBEDO_3
+    albedoColor = lerp(albedoColor, Albedo(i_tex23.zw, _FourthTex), alpha3);
+    #endif
 
     // metallic 和 smoothness 的混合
     half2 metallicGloss0 = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1);
@@ -477,6 +482,25 @@ VertexOutputForwardBase_MoreUV vertForwardBase_MoreUV (VertexInput_MoreUV v)
     return o;
 }
 
+half3 AllEmission(float2 uv0, float2 uv1, float2 uv2, float2 uv3, half4 alpha)
+{
+    half3 emissionRGB = float3(0, 0, 0);
+    #ifdef _EMISSION_0
+    emissionRGB += lerp(emissionRGB, Emission(uv0, _EmissionMap, _EmissionColor), alpha.x);
+    #endif
+    #ifdef _EMISSION_1
+    emissionRGB += lerp(emissionRGB, Emission(uv1, _EmissionMap1, _EmissionColor1), alpha.y);
+    #endif
+    #ifdef _EMISSION_2
+    emissionRGB += lerp(emissionRGB, Emission(uv2, _EmissionMap2, _EmissionColor2), alpha.z);
+    #endif
+    #ifdef _EMISSION_3
+    emissionRGB += lerp(emissionRGB, Emission(uv3, _EmissionMap3, _EmissionColor3), alpha.w);
+    #endif
+
+    return emissionRGB;
+}
+
 half4 fragForwardBaseInternal_MoreUV (VertexOutputForwardBase_MoreUV i)
 {
     UNITY_APPLY_DITHER_CROSSFADE(i.pos.xy);
@@ -506,10 +530,7 @@ half4 fragForwardBaseInternal_MoreUV (VertexOutputForwardBase_MoreUV i)
     UnityGI gi = FragmentGI (s, occlusion, i.ambientOrLightmapUV, atten, mainLight);
 
     half4 c = UNITY_BRDF_PBS (s.diffColor, s.specColor, s.oneMinusReflectivity, s.smoothness, s.normalWorld, -s.eyeVec, gi.light, gi.indirect);
-    c.rgb += Emission(i.tex01.xy, _EmissionMap, _EmissionColor)
-			+ Emission(i.tex01.zw, _EmissionMap1, _EmissionColor1);
-			// + Emission(i.tex23.xy, _EmissionMap2, _EmissionColor2)
-			// + Emission(i.tex23.zw, _EmissionMap3, _EmissionColor3);
+    c.rgb += AllEmission(i.tex01.xy, i.tex01.zw, i.tex23.xy, i.tex23.zw, s.alphaForIntensity);
 
     UNITY_EXTRACT_FOG_FROM_EYE_VEC(i);
     UNITY_APPLY_FOG(_unity_fogCoord, c.rgb);
