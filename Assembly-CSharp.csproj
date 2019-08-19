@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Gizmo\DrawCircle.cs" />
     <Compile Include="Assets\Scripts\AutoCheckVFXController.cs" />
     <Compile Include="Assets\Scripts\AutoCheckVFXControllerInstpector.cs" />
     <Compile Include="Assets\Scripts\PrefabTest.cs" />
