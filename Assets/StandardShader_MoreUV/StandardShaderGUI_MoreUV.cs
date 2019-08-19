@@ -262,9 +262,9 @@ namespace UnityEditor
             {
                 MaterialChanged(material, m_WorkflowMode);
                 m_FirstTimeApply = false;
-            }
+			}
 
-            ShaderPropertiesGUI(material);
+			ShaderPropertiesGUI(material);
         }
 
         public void ShaderPropertiesGUI(Material material)

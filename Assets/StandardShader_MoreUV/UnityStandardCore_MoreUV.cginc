@@ -179,7 +179,6 @@ float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex23, float4 tangentToWorld
     half3 normalTangent3 = NormalInTangentSpace(i_tex23.zw, _BumpMap3);
     float3 normalWorld3 = NormalizePerPixelNormal(tangent * normalTangent3.x + binormal * normalTangent3.y + normal * normalTangent3.z);
 
-alphaForIntensity = float4(1,1,1,1);
     float3 normalWorld = normalize(lerp(normalWorld0, normalWorld1, alphaForIntensity.y));
     normalWorld = normalize(lerp(normalWorld, normalWorld2, alphaForIntensity.z));
     normalWorld = normalize(lerp(normalWorld, normalWorld3, alphaForIntensity.w));
@@ -264,9 +263,7 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
     // albedo 的混合
     half3 albedoColor = half3(0, 0, 0);
 
-    #ifdef _ALBEDO_0
-    albedoColor = lerp(float3(0, 0, 0), Albedo(i_tex01.xy, _MainTex), alpha0);
-    #endif
+    albedoColor = Albedo(i_tex01.xy, _MainTex);
     #ifdef _ALBEDO_1
     albedoColor = lerp(albedoColor, Albedo(i_tex01.zw, _SecondTex), alpha1);
     #endif
@@ -283,7 +280,7 @@ inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
     half2 metallicGloss2 = MetallicGloss(i_tex23.xy, _MainTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1);
     half2 metallicGloss3 = MetallicGloss(i_tex23.zw, _MainTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
 
-	half2 metallicGloss = lerp(float2(0, 0), metallicGloss0, alpha0);
+	half2 metallicGloss = metallicGloss0;
     metallicGloss = lerp(metallicGloss, metallicGloss1, alpha1);
     metallicGloss = lerp(metallicGloss, metallicGloss2, alpha2);
     metallicGloss = lerp(metallicGloss, metallicGloss3, alpha3);
@@ -486,7 +483,7 @@ half3 AllEmission(float2 uv0, float2 uv1, float2 uv2, float2 uv3, half4 alpha)
 {
     half3 emissionRGB = float3(0, 0, 0);
     #ifdef _EMISSION_0
-    emissionRGB += lerp(emissionRGB, Emission(uv0, _EmissionMap, _EmissionColor), alpha.x);
+    emissionRGB += Emission(uv0, _EmissionMap, _EmissionColor);
     #endif
     #ifdef _EMISSION_1
     emissionRGB += lerp(emissionRGB, Emission(uv1, _EmissionMap1, _EmissionColor1), alpha.y);

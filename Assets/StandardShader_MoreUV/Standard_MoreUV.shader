@@ -114,7 +114,14 @@ Shader "Standard_MoreUV"
             #pragma shader_feature _NORMALMAP
             #pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
             #pragma shader_feature _EMISSION
-            #pragma shader_feature _EMISSION_0 _EMISSION_1 _EMISSION_2 _EMISSION_3
+            #pragma shader_feature _EMISSION_0
+            #pragma shader_feature _EMISSION_1
+            #pragma shader_feature _EMISSION_2
+            #pragma shader_feature _EMISSION_3
+            #pragma shader_feature _ALBEDO_0 
+            #pragma shader_feature _ALBEDO_1
+            #pragma shader_feature _ALBEDO_2
+            #pragma shader_feature _ALBEDO_3
             #pragma shader_feature _METALLICGLOSSMAP
             #pragma shader_feature ___ _DETAIL_MULX2
             #pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
@@ -150,15 +157,16 @@ Shader "Standard_MoreUV"
 
             // -------------------------------------
 
-
             #pragma shader_feature _NORMALMAP
             #pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
             #pragma shader_feature _METALLICGLOSSMAP
+            //#pragma shader_feature _ALBEDO_0 _ALBEDO_1 _ALBEDO_2 _ALBEDO_3
             #pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
             #pragma shader_feature _ _SPECULARHIGHLIGHTS_OFF
             #pragma shader_feature ___ _DETAIL_MULX2
             #pragma shader_feature _PARALLAXMAP
 
+            #pragma multi_compile _ALBEDO_0 _ALBEDO_1 _ALBEDO_2 _ALBEDO_3
             #pragma multi_compile_fwdadd_fullshadows
             #pragma multi_compile_fog
             // Uncomment the following line to enable dithering LOD crossfade. Note: there are more in the file to uncomment for other passes.
