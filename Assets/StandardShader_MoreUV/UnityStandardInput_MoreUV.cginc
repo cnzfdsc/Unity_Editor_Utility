@@ -38,6 +38,8 @@ sampler2D   _BumpMap2;
 
 sampler2D   _BumpMap3;
 
+sampler2D   _BumpMap4;
+
 sampler2D   _DetailMask;
 
 sampler2D   _MetallicGlossMap0;
@@ -118,11 +120,7 @@ half3 Albedo(float2 uv, sampler2D tex)
 
 half Alpha(float2 uv, sampler2D tex)
 {
-#if defined(_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A)
-    return _Color.a;
-#else
     return tex2D(tex, uv).a * _Color.a;
-#endif
 }
 
 half Occlusion(float2 uv, sampler2D occlusionMap, float occlusionStrength)
@@ -137,39 +135,23 @@ half Occlusion(float2 uv, sampler2D occlusionMap, float occlusionStrength)
 #endif
 }
 
-half2 MetallicGloss(float2 uv, sampler2D albedoTex, sampler2D metallicGlossMap)
+half2 MetallicGloss(float2 uv, sampler2D metallicGlossMap)
 {
-    half2 mg;
-
-    #ifdef _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-        mg.r = tex2D(metallicGlossMap, uv).r;
-        mg.g = tex2D(albedoTex, uv).a;
-    #else
-        mg = tex2D(metallicGlossMap, uv).ra;
-    #endif
+    half2 mg = tex2D(metallicGlossMap, uv).ra;
     return mg;
 }
 
-half2 MetallicGloss(float2 uv, sampler2D albedoTex, sampler2D metallicGlossMap, 
+half2 MetallicGloss(float2 uv, sampler2D metallicGlossMap, 
 					float metallic, float glossiness, float glossMapScale)
 {
     half2 mg;
 
 #ifdef _METALLICGLOSSMAP
-    #ifdef _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-        mg.r = tex2D(metallicGlossMap, uv).r;
-        mg.g = tex2D(albedoTex, uv).a;
-    #else
-        mg = tex2D(metallicGlossMap, uv).ra;
-    #endif
+    mg = tex2D(metallicGlossMap, uv).ra;
     mg.g *= glossMapScale;
 #else
     mg.r = metallic;
-    #ifdef _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-        mg.g = tex2D(albedoTex, uv).a * glossMapScale;
-    #else
-        mg.g = glossiness;
-    #endif
+    mg.g = glossiness;
 #endif
     return mg;
 }

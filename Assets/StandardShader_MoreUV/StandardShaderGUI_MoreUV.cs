@@ -601,8 +601,8 @@ namespace UnityEditor
 			////////////////////////////////////////////////////////////////
 
 			++indentation;
-            if (smoothnessMapChannel != null)
-                m_MaterialEditor.ShaderProperty(smoothnessMapChannel, Styles.smoothnessMapChannelText, indentation);
+            //if (smoothnessMapChannel != null)
+            //    m_MaterialEditor.ShaderProperty(smoothnessMapChannel, Styles.smoothnessMapChannelText, indentation);
         }
 
         public static void SetupMaterialWithBlendMode(Material material, BlendMode blendMode)
@@ -666,10 +666,24 @@ namespace UnityEditor
 			// Note: keywords must be based on Material value not on MaterialProperty due to multi-edit & material animation
 			// (MaterialProperty value might come from renderer material property block)
 
-			SetKeyword(material, "_ALBEDO_0", material.GetTexture("_MainTex"));
-			SetKeyword(material, "_ALBEDO_1", material.GetTexture("_SecondTex"));
-			SetKeyword(material, "_ALBEDO_2", material.GetTexture("_ThirdTex"));
-			SetKeyword(material, "_ALBEDO_3", material.GetTexture("_FourthTex"));
+
+			//_LAYER_0: Albedo0, MR0, Normal0
+			//_LAYER_1: Albedo1, Emission1
+			//_LAYER_2: Albedo2, MR2, Normal2
+			//_LAYER_3: Albedo3, MR3, Normal3
+			//_LAYER_4: Normal4
+			//SetKeyword(material, "_LAYER_0", material.GetTexture("_MainTex")
+			//								&& material.GetTexture("_MetallicGlossMap0")
+			//								&& material.GetTexture("_BumpMap0"));
+			SetKeyword(material, "_LAYER_1", material.GetTexture("_SecondTex")
+											|| material.GetTexture("_EmissionMap"));
+			SetKeyword(material, "_LAYER_2", material.GetTexture("_ThirdTex")
+											|| material.GetTexture("_MetallicGlossMap2")
+											|| material.GetTexture("_BumpMap2"));
+			SetKeyword(material, "_LAYER_3", material.GetTexture("_FourthTex")
+											|| material.GetTexture("_MetallicGlossMap3")
+											|| material.GetTexture("_BumpMap3"));
+			SetKeyword(material, "_LAYER_4", material.GetTexture("_BumpMap4"));
 
 			//SetKeyword(material, "_NORMALMAP", material.GetTexture("_BumpMap") || material.GetTexture("_DetailNormalMap"));
 			SetKeyword(material, "_NORMALMAP"
@@ -700,10 +714,10 @@ namespace UnityEditor
 			SetKeyword(material, "_EMISSION_2", material.GetTexture("_EmissionMap2"));
 			SetKeyword(material, "_EMISSION_3", material.GetTexture("_EmissionMap3"));
 
-			if (material.HasProperty("_SmoothnessTextureChannel"))
-            {
-                SetKeyword(material, "_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A", GetSmoothnessMapChannel(material) == SmoothnessMapChannel.AlbedoAlpha);
-            }
+			//if (material.HasProperty("_SmoothnessTextureChannel"))
+   //         {
+   //             SetKeyword(material, "_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A", GetSmoothnessMapChannel(material) == SmoothnessMapChannel.AlbedoAlpha);
+   //         }
         }
 
         static void MaterialChanged(Material material, WorkflowMode workflowMode)

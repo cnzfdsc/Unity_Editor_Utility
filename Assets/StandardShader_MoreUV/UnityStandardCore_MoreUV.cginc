@@ -172,16 +172,25 @@ float3 PerPixelWorldNormal(float4 i_tex01, float4 i_tex23, float4 tangentToWorld
 
     half3 normalTangent0 = NormalInTangentSpace(i_tex01.xy, _BumpMap0);
     float3 normalWorld0 = NormalizePerPixelNormal(tangent * normalTangent0.x + binormal * normalTangent0.y + normal * normalTangent0.z);
-    half3 normalTangent1 = NormalInTangentSpace(i_tex01.zw, _BumpMap1);
-    float3 normalWorld1 = NormalizePerPixelNormal(tangent * normalTangent1.x + binormal * normalTangent1.y + normal * normalTangent1.z);
+
+    float3 normalWorld = normalize(normalWorld0);
+	#ifndef _LAYER_4
+	#ifdef _LAYER_2
     half3 normalTangent2 = NormalInTangentSpace(i_tex23.xy, _BumpMap2);
     float3 normalWorld2 = NormalizePerPixelNormal(tangent * normalTangent2.x + binormal * normalTangent2.y + normal * normalTangent2.z);
+    normalWorld = normalize(lerp(normalWorld, normalWorld2, alphaForIntensity.z));
+	#endif
+	#ifdef _LAYER_3
     half3 normalTangent3 = NormalInTangentSpace(i_tex23.zw, _BumpMap3);
     float3 normalWorld3 = NormalizePerPixelNormal(tangent * normalTangent3.x + binormal * normalTangent3.y + normal * normalTangent3.z);
-
-    float3 normalWorld = normalize(lerp(normalWorld0, normalWorld1, alphaForIntensity.y));
-    normalWorld = normalize(lerp(normalWorld, normalWorld2, alphaForIntensity.z));
     normalWorld = normalize(lerp(normalWorld, normalWorld3, alphaForIntensity.w));
+	#endif
+	#else
+	// UNDONE, 没有LAYER4的UV
+    // half3 normalTangent4 = NormalInTangentSpace(i_tex23.xy, _BumpMap4);
+    // float3 normalWorld4 = NormalizePerPixelNormal(tangent * normalTangent2.x + binormal * normalTangent2.y + normal * normalTangent2.z);
+    // normalWorld = normalize(lerp(normalWorld, normalWorld2, alphaForIntensity.z));
+	#endif
 
 #else
 
@@ -249,41 +258,54 @@ inline half3 DiffuseAndSpecularFromMetallic_MoreUV (half3 albedo, half metallic,
 
 inline FragmentCommonData MetallicSetup (float4 i_tex01, float4 i_tex23)
 {
-    half alpha0 = Alpha(i_tex01.xy, _MainTex);
-    half alpha1 = Alpha(i_tex01.zw, _SecondTex);
-    half alpha2 = Alpha(i_tex23.xy, _ThirdTex);
-    half alpha3 = Alpha(i_tex23.zw, _FourthTex);
+	half  alpha = 0, alpha0 = 0, alpha1 = 0, alpha2 = 0, alpha3 = 0;
 
-    half alpha = alpha0 + alpha1 + alpha2 + alpha3;
+    alpha0 = Alpha(i_tex01.xy, _MainTex);
+	alpha += alpha0;
+	
+    #ifdef _LAYER_1
+    alpha1 = Alpha(i_tex01.zw, _SecondTex);
+	alpha += alpha1;
+	#endif
+	#ifdef _LAYER_2
+    alpha2 = Alpha(i_tex23.xy, _ThirdTex);
+	alpha += alpha2;
+	#endif
+	#ifdef _LAYER_3
+    alpha3 = Alpha(i_tex23.zw, _FourthTex);
+	alpha += alpha3;
+	#endif
 
     #if defined(_ALPHATEST_ON)
         clip (alpha - _Cutoff);
     #endif
 
     // albedo 的混合
-    half3 albedoColor = half3(0, 0, 0);
-
-    albedoColor = Albedo(i_tex01.xy, _MainTex);
-    #ifdef _ALBEDO_1
+    half3 albedoColor = Albedo(i_tex01.xy, _MainTex);
+    #ifdef _LAYER_1
     albedoColor = lerp(albedoColor, Albedo(i_tex01.zw, _SecondTex), alpha1);
     #endif
-    #ifdef _ALBEDO_2
+    #ifdef _LAYER_2
     albedoColor = lerp(albedoColor, Albedo(i_tex23.xy, _ThirdTex), alpha2);
     #endif
-    #ifdef _ALBEDO_3
+    #ifdef _LAYER_3
     albedoColor = lerp(albedoColor, Albedo(i_tex23.zw, _FourthTex), alpha3);
     #endif
 
     // metallic 和 smoothness 的混合
-    half2 metallicGloss0 = MetallicGloss(i_tex01.xy, _MainTex, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1);
-    half2 metallicGloss1 = MetallicGloss(i_tex01.zw, _MainTex, _MetallicGlossMap1, _Metallic1, _Glossiness1, 1);
-    half2 metallicGloss2 = MetallicGloss(i_tex23.xy, _MainTex, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1);
-    half2 metallicGloss3 = MetallicGloss(i_tex23.zw, _MainTex, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
-
-	half2 metallicGloss = metallicGloss0;
-    metallicGloss = lerp(metallicGloss, metallicGloss1, alpha1);
+	half2 metallicGloss = 0;
+	
+    half2 metallicGloss0 = MetallicGloss(i_tex01.xy, _MetallicGlossMap0, _Metallic0, _Glossiness0, 1);
+	
+	metallicGloss = metallicGloss0;
+	#ifdef _LAYER_2
+	half2 metallicGloss2 = MetallicGloss(i_tex23.xy, _MetallicGlossMap2, _Metallic2, _Glossiness2, 1);
     metallicGloss = lerp(metallicGloss, metallicGloss2, alpha2);
+    #endif
+    #ifdef _LAYER_3
+	half2 metallicGloss3 = MetallicGloss(i_tex23.zw, _MetallicGlossMap3, _Metallic3, _Glossiness3, 1);
     metallicGloss = lerp(metallicGloss, metallicGloss3, alpha3);
+	#endif
 
     half metallic = metallicGloss.x;
     half smoothness = metallicGloss.y; // this is 1 minus the square root of real roughness m.
@@ -482,19 +504,9 @@ VertexOutputForwardBase_MoreUV vertForwardBase_MoreUV (VertexInput_MoreUV v)
 half3 AllEmission(float2 uv0, float2 uv1, float2 uv2, float2 uv3, half4 alpha)
 {
     half3 emissionRGB = float3(0, 0, 0);
-    #ifdef _EMISSION_0
-    emissionRGB += Emission(uv0, _EmissionMap, _EmissionColor);
-    #endif
-    #ifdef _EMISSION_1
+    #ifdef _LAYER_1
     emissionRGB += lerp(emissionRGB, Emission(uv1, _EmissionMap1, _EmissionColor1), alpha.y);
     #endif
-    #ifdef _EMISSION_2
-    emissionRGB += lerp(emissionRGB, Emission(uv2, _EmissionMap2, _EmissionColor2), alpha.z);
-    #endif
-    #ifdef _EMISSION_3
-    emissionRGB += lerp(emissionRGB, Emission(uv3, _EmissionMap3, _EmissionColor3), alpha.w);
-    #endif
-
     return emissionRGB;
 }
 

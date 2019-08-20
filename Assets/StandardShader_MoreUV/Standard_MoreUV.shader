@@ -52,6 +52,8 @@ Shader "Standard_MoreUV"
         _BumpScale3("Scale", Float) = 1.0
         _BumpMap3("Normal Map", 2D) = "bump" {}
 
+        _BumpMap4("Normal Map", 2D) = "bump" {}
+
         _OcclusionStrength0("Strength", Range(0.0, 1.0)) = 1.0
         _OcclusionMap0("Occlusion", 2D) = "white" {}
 
@@ -114,14 +116,10 @@ Shader "Standard_MoreUV"
             #pragma shader_feature _NORMALMAP
             #pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
             #pragma shader_feature _EMISSION
-            #pragma shader_feature _EMISSION_0
-            #pragma shader_feature _EMISSION_1
-            #pragma shader_feature _EMISSION_2
-            #pragma shader_feature _EMISSION_3
-            #pragma shader_feature _ALBEDO_0 
-            #pragma shader_feature _ALBEDO_1
-            #pragma shader_feature _ALBEDO_2
-            #pragma shader_feature _ALBEDO_3
+            #pragma shader_feature _LAYER_1
+            #pragma shader_feature _LAYER_2
+            #pragma shader_feature _LAYER_3
+            #pragma shader_feature _LAYER_4
             #pragma shader_feature _METALLICGLOSSMAP
             #pragma shader_feature ___ _DETAIL_MULX2
             #pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
